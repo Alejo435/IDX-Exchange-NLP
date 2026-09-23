@@ -1,0 +1,57 @@
+query_id,query,intent
+q_001,show me homes in San Diego,browsing
+q_002,homes with pools in Irvine,browsing
+q_003,condos near UC Irvine with low HOA,researching
+q_004,move-in ready homes in San Diego under 1.2m,high_intent_inquiry
+q_005,3 bed 2 bath under 700k in Irvine,high_intent_inquiry
+q_006,houses in Long Beach,browsing
+q_007,homes with ocean views in Malibu,browsing
+q_008,townhomes in Temecula,browsing
+q_009,homes with a view in Lake Arrowhead,browsing
+q_010,single-story homes in Palm Desert,browsing
+q_011,homes near golf courses in La Quinta,browsing
+q_012,what are hoa fees like for condos in Palm Springs,researching
+q_013,neighborhoods in Pasadena with good school districts,researching
+q_014,areas in Riverside with no mello-roos,researching
+q_015,average price of a 3 bedroom in Corona,researching
+q_016,is Murrieta or Temecula more affordable,researching
+q_017,which gated communities in Oceanside have community pools,researching
+q_018,cities near Los Angeles with low property taxes,researching
+q_019,4+ bed homes in Menifee under 600k,high_intent_inquiry
+q_020,2 bed condo in San Jose below $800k with in-unit laundry,high_intent_inquiry
+q_021,homes in Chula Vista between 500k and 750k with a two-car garage,high_intent_inquiry
+q_022,open houses this weekend in Huntington Beach,high_intent_inquiry
+q_023,3 bedroom house in Fontana under 550k no hoa,high_intent_inquiry
+q_024,homes in Escondido without a pool under 900k,high_intent_inquiry
+q_025,new listings in Oakland with seller financing,high_intent_inquiry
+q_026,homes with rv parking in Hesperia,browsing
+q_027,fixer-upper homes in Victorville,browsing
+q_028,5 bed 3 bath with pool in Lancaster under $500k,high_intent_inquiry
+q_029,homes with a casita in La Quinta,browsing
+q_030,condos in Pasadena,browsing
+q_031,luxury homes in Malibu,browsing
+q_032,homes with a guest house in Temecula,browsing
+q_033,homes near the beach in Oceanside,browsing
+q_034,homes with big backyards in Riverside,browsing
+q_035,mobile homes in Hemet,browsing
+q_036,cabins in Lake Arrowhead,browsing
+q_037,homes with owned solar in Palmdale,browsing
+q_038,what is the average hoa fee in Irvine,researching
+q_039,how much are property taxes in Chula Vista,researching
+q_040,best neighborhoods in San Jose for commuters,researching
+q_041,which areas of Los Angeles have the most new construction,researching
+q_042,are homes in Palm Springs mostly condos or houses,researching
+q_043,compare home prices in Corona and Ontario,researching
+q_044,how long do homes stay on the market in Escondido,researching
+q_045,areas in San Diego near good hiking trails,researching
+q_046,do most homes in Indio have pools,researching
+q_047,what does 800k buy in Long Beach,researching
+q_048,3+ bed 2+ bath in Murrieta between 600k and 800k,high_intent_inquiry
+q_049,"homes in Apple Valley under $450,000 with a three-car garage",high_intent_inquiry
+q_050,move-in ready condo in Oakland under 700k with parking,high_intent_inquiry
+q_051,4 bed home in Irvine with a pool and no hoa under 1.5m,high_intent_inquiry
+q_052,open house tomorrow in Pasadena 3 bedroom,high_intent_inquiry
+q_053,assumable loan homes in Menifee under 650k,high_intent_inquiry
+q_054,2 bedroom condo in Los Angeles max $900k with a balcony,high_intent_inquiry
+q_055,new construction in Fontana 4 bed under 700k,high_intent_inquiry
+q_056,fha approved condos in Ontario under 500k,high_intent_inquiry

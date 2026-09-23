@@ -1,5 +1,6 @@
 import pytest 
 import json 
+import re
 import pandas as pd
 
 def test_taxonomy_loaded(): 
