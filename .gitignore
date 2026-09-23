@@ -1,3 +1,4 @@
 reference
 test.py
 sql
+data/raw/*.sql
