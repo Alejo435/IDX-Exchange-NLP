@@ -69,8 +69,7 @@ SAMPLE_QUERY = """
 """
 
 # Retrieve a random sample of listings with non-trivial remarks.
-def load_listing_sample(conn, sample_size=SAMPLE_SIZE,
-                        min_length=MIN_REMARK_LENGTH, seed=RANDOM_SEED):
+def load_listing_sample(conn, sample_size=SAMPLE_SIZE, min_length=MIN_REMARK_LENGTH, seed=RANDOM_SEED):
 
     cursor = conn.cursor()
     try:
