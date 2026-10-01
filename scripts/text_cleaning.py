@@ -115,9 +115,8 @@ class TextCleaner:
     # ============================================================
 
     def _strip_number_commas(self, text):
-
         # 2,000 -> 2000 and 1,250,000 -> 1250000 without touching list commas like "pool, spa"
-        return re.sub(r'(?<=\d),(?=\d{3}\b)', '', text)
+        return re.sub(r'(?<=\d),(?=\d{3}(?!\d))', '', text)
 
     def normalize_prices(self, text):
 
