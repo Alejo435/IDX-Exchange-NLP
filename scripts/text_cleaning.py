@@ -197,6 +197,9 @@ class TextCleaner:
         text = re.sub(r'\.{4,}', '...', text)
         text = re.sub(r'-{2,}', '-', text)
 
+        # drop a period left in front of ! or ? such as "sq. ft.!" after measurement cleanup
+        text = re.sub(r'\.+(?=[!?])', '', text)
+
         # remove space before punctuation
         text = re.sub(r'\s+([,.!?;:])', r'\1', text)
 
