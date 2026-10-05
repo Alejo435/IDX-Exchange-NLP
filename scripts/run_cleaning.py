@@ -6,7 +6,7 @@ from text_cleaning import TextCleaner
 # runs cleaning pipeline specified in week 2 on data\processed\listing_sample.csv
 
 # ============================================================
-# Paths and configuration
+# ------------------Paths and configuration------------------
 # ============================================================
 
 # resolve paths from the project root so the script works from any working directory
@@ -21,7 +21,7 @@ TEXT_COLUMN = 'remarks'
 CLEAN_COLUMN = 'remarks_clean'
 
 # ============================================================
-# Data loading
+# ----------------------Data loading--------------------------
 # ============================================================
 
 def load_sample(path=INPUT_PATH, column=TEXT_COLUMN):
@@ -34,7 +34,7 @@ def load_sample(path=INPUT_PATH, column=TEXT_COLUMN):
 
 
 # ============================================================
-# Profiling report
+# ------------------Profiling report--------------------------
 # ============================================================
 
 def _format_counts(pairs):
@@ -94,7 +94,7 @@ def write_profiling_report(profile, df, path=PROFILE_REPORT_PATH, column=TEXT_CO
     return path
 
 # ============================================================
-# Cleaning
+# --------------------------Cleaning--------------------------
 # ============================================================
 
 def clean_dataset(df, cleaner, path=CLEANED_PATH):
@@ -108,7 +108,7 @@ def clean_dataset(df, cleaner, path=CLEANED_PATH):
 
 
 # ============================================================
-# Before and After example creating
+# ------------Before and After example creating---------------
 # ============================================================
 
 def _change_score(before, after):

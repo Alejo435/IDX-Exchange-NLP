@@ -9,7 +9,7 @@ from nltk.util import ngrams
 # week 1 taxonomy builder: extracts candidate terms from listing remarks to seed the taxonomy
 
 # =============================================================================
-# Config.
+# ------------------------------------Config.---------------------------------
 # =============================================================================
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +30,7 @@ CANDIDATES_PATH = os.path.join(
 KEEP_WORDS = {"no", "not"}
 
 # =============================================================================
-# Resource Setup
+# -----------------------------Resource Setup----------------------------------
 # =============================================================================
 
 # download any missing nltk data required for tokenization and stopword filtering
@@ -53,7 +53,7 @@ def load_stopwords():
     return set(stopwords.words("english")) - KEEP_WORDS
 
 # =============================================================================
-# Loading
+# ------------------------------------Loading----------------------------------
 # =============================================================================
 
 # load lowercase listing remarks from the week 1 sample CSV
@@ -63,7 +63,7 @@ def load_remarks(path=SAMPLE_PATH):
     return df["remarks"].dropna().astype(str).str.lower().tolist()
 
 # =============================================================================
-# N-gram Counting
+# ---------------------------N-gram Counting-----------------------------------
 # =============================================================================
 
 # return True for alphabetic tokens, allowing internal hyphens such as move-in
@@ -92,7 +92,7 @@ def count_ngrams(remarks, stop_words, n=NGRAM_SIZE):
     return freq
 
 # =============================================================================
-# Entry Point
+# -------------------------------Entry Point-----------------------------------
 # =============================================================================
 
 # print the top n-grams from the listing sample and save them for review

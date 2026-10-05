@@ -12,7 +12,7 @@ from scripts.text_cleaning import TextCleaner
 
 
 # ============================================================
-# Shared test data
+# ------------------Shared test data--------------------------
 # ============================================================
 
 cleaner = TextCleaner()
@@ -29,7 +29,7 @@ df = pd.DataFrame({
 })
 
 # ============================================================
-# Price normalization tests
+# ------------------Price normalization tests-----------------
 # ============================================================
 
 def test_price_normalization():
@@ -73,7 +73,7 @@ def test_price_no_numbers_unchanged():
     assert cleaner.normalize_prices('updated kitchen') == 'updated kitchen'
 
 # ============================================================
-# Measurement normalization tests
+# ---------------Measurement normalization tests--------------
 # ============================================================
 
 def test_sqft_with_comma():
@@ -113,7 +113,7 @@ def test_sqft_without_number_unchanged():
     assert cleaner.normalize_measurements('great sqft') == 'great sqft'
 
 # ============================================================
-# Abbreviation expansion tests
+# ----------------Abbreviation expansion tests----------------
 # ============================================================
 
 def test_abbrev_basic():
@@ -157,10 +157,11 @@ def test_abbrev_adjacent_punctuation():
     assert cleaner.expand_abbreviations('pool, fp.') == 'pool, fireplace.'
 
 # ============================================================
-# Html removal tests
+# ------------------Html removal tests------------------------
 # ============================================================
 
 def test_html_paragraph_tags():
+
     # tags become spaces, whitespace cleanup happens later in the pipeline
     assert cleaner.remove_html('<p>Corner lot</p>').strip() == 'Corner lot'
 
@@ -189,7 +190,7 @@ def test_html_encoded_tag_decoded_not_removed():
     assert cleaner.remove_html('a &lt; b') == 'a < b'
 
 # ============================================================
-# Unicode normalization tests
+# ------------------Unicode normalization tests---------------
 # ============================================================
 
 def test_unicode_smart_quotes():
@@ -220,7 +221,7 @@ def test_unicode_ascii_unchanged():
     assert cleaner.normalize_unicode('plain text 123') == 'plain text 123'
 
 # ============================================================
-# Punctuation and whitespace tests
+# ---------------Punctuation and whitespace tests-------------
 # ============================================================
 
 def test_punct_decorative_runs():
@@ -263,7 +264,7 @@ def test_whitespace_strip():
     assert cleaner.normalize_whitespace('  padded  ') == 'padded'
 
 # ============================================================
-# section: full pipeline tests
+# -----------------Full pipeline tests------------------------
 # ============================================================
 
 def test_pipeline_realistic_remark():
@@ -306,7 +307,7 @@ def test_pipeline_empty_string():
     assert cleaner.clean_text('') == ''
 
 # ============================================================
-# Data profiling tests
+# --------------------Data profiling tests--------------------
 # ============================================================
 
 def test_profiling():

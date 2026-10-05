@@ -74,7 +74,7 @@ class TextCleaner:
         return re.compile(r'(?<![^\W\d])(' + '|'.join(parts) + r')', flags=re.I)
     
     # ============================================================
-    # Character level normalization
+    # ------------------Character level normalization-------------
     # ============================================================
 
     def remove_html(self, text):
@@ -111,7 +111,7 @@ class TextCleaner:
         return text
 
     # ============================================================
-    # Numeric normalization
+    # ------------------Numeric normalization---------------------
     # ============================================================
 
     def _strip_number_commas(self, text):
@@ -163,7 +163,7 @@ class TextCleaner:
         return text
 
     # ============================================================
-    # Word level normalization
+    # ------------------Word level normalization------------------
     # ============================================================
 
     def expand_abbreviations(self, text):
@@ -183,7 +183,7 @@ class TextCleaner:
         return self._abbrev_pattern.sub(_replace, text)
 
     # ============================================================
-    # Formatting cleanup
+    # ------------------Formatting cleanup------------------------
     # ============================================================
 
     def normalize_punctuation(self, text):
@@ -212,7 +212,7 @@ class TextCleaner:
         return re.sub(r'\s+', ' ', text).strip()
 
     # ============================================================
-    # Full pipeline for cleaning text 
+    # -----------------Full pipeline for cleaning text------------
     # ============================================================
 
     def clean_text(self, text):
@@ -233,7 +233,7 @@ class TextCleaner:
         return text.strip()
 
     # ============================================================
-    # Data profiling
+    # ------------------Data profiling----------------------------
     # ============================================================
 
     def profile_column(self, df, column_name):

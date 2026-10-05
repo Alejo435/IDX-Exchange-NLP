@@ -18,7 +18,7 @@ OUTPUT_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "listing_sample.cs
 MIN_SAMPLE_ROWS = 500
 
 # =============================================================================
-# Configuration
+# -------------------------Configuration---------------------------------------
 # =============================================================================
 
 # connection settings default to the values defined in docker-compose.yml
@@ -39,14 +39,14 @@ MIN_REMARK_LENGTH = 50
 RANDOM_SEED = 42
 
 # =============================================================================
-# Database Connection
+# -------------------------Database Connection---------------------------------
 # =============================================================================
 
 def get_connection(config=None):
     return mysql.connector.connect(**(config or DB_CONFIG))
 
 # =============================================================================
-# Sample Extraction
+# -------------------------Sample Extraction-----------------------------------
 # =============================================================================
 
 # CHAR_LENGTH is used instead of LENGTH because LENGTH counts bytes
@@ -84,7 +84,7 @@ def load_listing_sample(conn, sample_size=SAMPLE_SIZE, min_length=MIN_REMARK_LEN
     return pd.DataFrame(rows, columns=columns)
 
 # =============================================================================
-# Output
+# -------------------------Output----------------------------------------------
 # =============================================================================
 
 # write the sample DataFrame to CSV, creating the output directory if needed
@@ -94,7 +94,7 @@ def save_sample(df, path=OUTPUT_PATH):
     return path
 
 # =============================================================================
-# Entry Point
+# -------------------------Entry Point-----------------------------------------
 # =============================================================================
 
 # extract the listing sample from MySQL and save it to CSV
