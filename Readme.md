@@ -72,3 +72,36 @@ Will contain set up instructions for docker + additional python libraries
 **File:** `tests/test_text_cleaning.py` (67 tests)
 - Covers prices, measurements, abbreviations, HTML, unicode, punctuation, the full pipeline, and profiling
 - Kept the spec's two tests, defining `cleaner` and `df` at module level so they run
+
+## Week 3: Named Entity Extraction
+
+### Entity Extractor
+**File:** `scripts/entity_extractor.py`
+- `EntityExtractor` class with regex extraction for bedrooms, bathrooms, price, and square footage, plus `extract_all` returning all five fields as in the spec
+- Bathrooms return floats so `2.5 bathrooms` and `2 full and 1 half baths` both give `2.5`
+- Sqft skips lot, yard, and secondary unit sizes such as `on a 7500 square feet lot`
+
+### Amenity Detection
+- Loads `data/processed/taxonomy.json` and uses only the 5 feature categories: rooms/spaces, kitchen/bath, interior, exterior/outdoor, community/location
+- Property type, condition, and financial terms are excluded since they aren't amenities
+- Hyphen, spacing, and plural differences match automatically, so `walk in closets` matches `walk-in closet`
+- Longer phrases claim text first, so `community pool` isn't also counted as a private pool
+- Returns sorted taxonomy IDs, one per amenity even when mentioned more than once
+
+### Fixes to the Spec Code
+- Bedroom pattern: added a trailing word boundary so `3 brick` isn't read as 3 bedrooms
+- Bedroom pattern: optional hyphen so `5-bedroom` matches (about 24% of remarks use this form)
+- Price regex kept as written for the baseline; known false positives (ZIP codes, price reductions, credits) are measured in the evaluation instead of patched blindly
+
+### Labeled Dataset
+**Files:** `data/labeled/entities_all.jsonl`, `entities_dev.jsonl`, `entities_test.jsonl`
+- 250 remarks with character-level entity spans: 178 bedroom, 160 bathroom, 97 sqft, 11 price, and 2,795 amenity labels
+- Stratified sample (seed 42): 60 remarks with `$` amounts, 150 with bed/bath/sqft mentions, 40 with neither, so false positives are measured too
+- **Labels were generated with AI assistance due to time constraints (I have a hackthon this weekend and exam later this week).** 
+- Labeling rules: main home only (not ADU/guest unit), listing price only (not reductions, credits, HOA, or rent), living area only (not lot size), partial counts by floor left null, hypothetical features ("room for a pool") not labeled
+
+### Dataset Split
+**File:** `scripts/split_dataset.py`
+- Stratified 70/30 split by sampling group: 175 dev, 75 test
+- Fixed seed and sorting by listing ID, so the split is identical on every run regardless of file order
+- Tuning uses the dev set only; the test set is run once for the final score

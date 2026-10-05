@@ -89,14 +89,22 @@ class EntityExtractor:
 
     def extract_bedrooms(self, text):
         patterns = [
-            # made correction from spec so "3 brick" is not read as 3 bedrooms
-            r'(\d+)\s*(?:bed|br|bedroom)s?\b',
-            r'(\d+)bd'
+
+            # trailing boundary so "3 brick" is not read as 3 bedrooms
+            # optional hyphen so "5-bedroom" matches, used in about 24% of remarks
+            r'(\d+)\s*-?\s*(?:bed|br|bedroom)s?\b',
+
+            # kept for raw text; the week 2 cleaner already expands 3bd to 3 bedroom
+            r'(\d+)bd',
+
+            # spelled-out counts such as "three bedrooms", reusing the bathroom word map
+            r'\b(' + '|'.join(WORD_NUMBERS) + r')\s+(?:bed|bedroom)s?\b'
         ]
         for pattern in patterns:
             match = re.search(pattern, text, re.I)
             if match:
-                return int(match.group(1))
+                value = match.group(1).lower()
+                return int(WORD_NUMBERS.get(value, value))
         return None
 
     def extract_price(self, text):
@@ -212,3 +220,21 @@ class EntityExtractor:
             'sqft': self.extract_sqft(text),
             'amenities': self.extract_amenities(text)
         }
+
+
+# print extracted entities for a few cleaned remarks as a quick sanity check
+def main():
+    import pandas as pd
+
+    cleaned_path = os.path.join(PROJECT_ROOT, "data", "processed", "listing_sample_cleaned.csv")
+    remarks = pd.read_csv(cleaned_path)["remarks_clean"].fillna("").tolist()
+
+    extractor = EntityExtractor()
+    for text in remarks[:5]:
+        print(text[:150])
+        print(extractor.extract_all(text))
+        print()
+
+
+if __name__ == "__main__":
+    main()
