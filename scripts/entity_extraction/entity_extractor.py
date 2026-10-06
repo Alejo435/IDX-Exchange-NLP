@@ -11,7 +11,7 @@ WORD_NUMBERS = {
 # words after a square feet mention, that means they're not the home's living area
 NON_LIVING_SQFT_WORDS = r'(?:lot|backyard|yard|terrace|patio|deck|garage|adu|casita|guest)'
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TAXONOMY_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "taxonomy.json")
 
 # based on the spec I kept only the five feature categories to count as amenities; property_type, condition, and financial_use are excluded 

@@ -10,7 +10,7 @@ from collections import defaultdict
 # ------------------Config------------------------------------
 # ============================================================
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LABELED_DIR = os.path.join(PROJECT_ROOT, "data", "labeled")
 ALL_PATH = os.path.join(LABELED_DIR, "entities_all.jsonl")
 DEV_PATH = os.path.join(LABELED_DIR, "entities_dev.jsonl")
