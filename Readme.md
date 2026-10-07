@@ -76,32 +76,43 @@ Will contain set up instructions for docker + additional python libraries
 ## Week 3: Named Entity Extraction
 
 ### Entity Extractor
-**File:** `scripts/entity_extractor.py`
-- `EntityExtractor` class with regex extraction for bedrooms, bathrooms, price, and square footage, plus `extract_all` returning all five fields as in the spec
-- Bathrooms return floats so `2.5 bathrooms` and `2 full and 1 half baths` both give `2.5`
-- Sqft skips lot, yard, and secondary unit sizes such as `on a 7500 square feet lot`
+**File:** `scripts/entity_extraction/entity_extractor.py`
+- `EntityExtractor` class pulls bedrooms, bathrooms, price, square footage, and amenities from cleaned remarks
+- Kept the spec's `extract_all` output and bedroom patterns, and added `extract_bathrooms`, `extract_sqft`, and `extract_amenities`
+- Handles spelled-out and hyphenated counts (`three-bedroom`), fractional baths (`2 1/2 bath`), and words in between (`4 spacious bedrooms`)
+- Sqft skips lot and yard sizes, so `on a 7500 square feet lot` isn't read as the home's size
 
 ### Amenity Detection
-- Loads `data/processed/taxonomy.json` and uses only the 5 feature categories: rooms/spaces, kitchen/bath, interior, exterior/outdoor, community/location
-- Property type, condition, and financial terms are excluded since they aren't amenities
-- Hyphen, spacing, and plural differences match automatically, so `walk in closets` matches `walk-in closet`
-- Longer phrases claim text first, so `community pool` isn't also counted as a private pool
-- Returns sorted taxonomy IDs, one per amenity even when mentioned more than once
+- Uses the Week 1 taxonomy, limited to the 5 feature categories (rooms, kitchen/bath, interior, exterior, community)
+- Added variant phrasings per term, so `master suite`, `shopping`, and `freeways` map to the right taxonomy IDs
+- Plurals, hyphens, and spacing match automatically (`walk in closets` = `walk-in closet`)
+- Pools and spas next to words like "community" or "HOA" count as community amenities, not private ones
 
 ### Fixes to the Spec Code
-- Bedroom pattern: added a trailing word boundary so `3 brick` isn't read as 3 bedrooms
-- Bedroom pattern: optional hyphen so `5-bedroom` matches (about 24% of remarks use this form)
-- Price regex kept as written for the baseline; known false positives (ZIP codes, price reductions, credits) are measured in the evaluation instead of patched blindly
+- Bedroom pattern: added a word boundary so `3 brick` isn't 3 bedrooms, and an optional hyphen for `5-bedroom`
+- Bedrooms and bathrooms take the earliest match in the text, not the first pattern that matches anywhere
+- Price now requires `$`, which removed every ZIP code false positive, and skips reductions, credits, and upgrade amounts
 
 ### Labeled Dataset
 **Files:** `data/labeled/entities_all.jsonl`, `entities_dev.jsonl`, `entities_test.jsonl`
-- 250 remarks with character-level entity spans: 178 bedroom, 160 bathroom, 97 sqft, 11 price, and 2,795 amenity labels
-- Stratified sample (seed 42): 60 remarks with `$` amounts, 150 with bed/bath/sqft mentions, 40 with neither, so false positives are measured too
-- **Labels were generated with AI assistance due to time constraints (I have a hackthon this weekend and exam later this week).** 
-- Labeling rules: main home only (not ADU/guest unit), listing price only (not reductions, credits, HOA, or rent), living area only (not lot size), partial counts by floor left null, hypothetical features ("room for a pool") not labeled
+- 250 remarks with character spans: 178 bedroom, 160 bathroom, 97 sqft, 11 price, and 2,795 amenity labels
+- **Labels were made with AI assistance due to lack of time - I had a 72hr hackathon starting Friday of that week**, so scores may be higher than with independent self-made labels
+- Rules: main home only (not ADUs), listing price only, living area only, and partial or hypothetical mentions left unlabeled
+- `scripts/entity_extraction/split_dataset.py` makes a stratified 175 dev / 75 test split with a fixed seed
 
-### Dataset Split
-**File:** `scripts/split_dataset.py`
-- Stratified 70/30 split by sampling group: 175 dev, 75 test
-- Fixed seed and sorting by listing ID, so the split is identical on every run regardless of file order
-- Tuning uses the dev set only; the test set is run once for the final score
+### Evaluation
+**File:** `scripts/entity_extraction/evaluate_extractor.py`
+- Precision, recall, and F1 per field, plus a micro average across all entities
+- A wrong value counts as both a false positive and a false negative
+- Tuned on dev only, then ran the test set once at the end
+
+### Results
+- Dev micro F1 went from 0.827 (baseline) to 0.907 after 4 rounds of tuning
+- **Test micro F1: 0.885** (target 0.85). Bedrooms 0.872, bathrooms 0.940, sqft 0.933, amenities 0.881
+- Price scored 0.750 on test, but with only 3 labels the number isn't reliable
+
+### Error Analysis
+**File:** `scripts/entity_extraction/error_analysis.py`
+- Groups errors into patterns and saves each one with its context to `data/labeled/errors_{split}.csv`
+- Top test failures: amenity phrasings not in the variants, words used in a different sense ("office" in a hypothetical, "gated" for a single gate), and missed location phrasing
+- Bedroom precision (0.797) is limited by counts for part of the home or an ADU, which regex can't tell apart from the main home
